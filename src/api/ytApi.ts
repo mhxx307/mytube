@@ -3,10 +3,16 @@ import { ShortDetail, ShortResponse, VideoResponse } from "../types";
 
 const BASE_URL = "https://yt-api.p.rapidapi.com";
 
+declare const process: {
+    env: {
+        REACT_YT_API_KEY: string;
+    };
+};
+
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
-        "X-RapidAPI-Key": "1f38b8ed59mshaee3e67dd81e967p1a8795jsne747106aa251", // Add your RapidAPI key here
+        "X-RapidAPI-Key": process.env.REACT_YT_API_KEY, // Add your RapidAPI key here
         "X-RapidAPI-Host": "yt-api.p.rapidapi.com",
     },
 });
