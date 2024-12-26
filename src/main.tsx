@@ -6,6 +6,7 @@ import VideoDetail from "./pages/VideoDetail";
 import "./index.css";
 import BasicLayout from "./components/BasicLayout";
 import ShortDetail from "./pages/ShortDetail";
+import Videos from "./pages/Videos";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -32,6 +33,14 @@ createRoot(document.getElementById("root")!).render(
                     element={
                         <BasicLayout>
                             <ShortDetail />
+                        </BasicLayout>
+                    }
+                />
+                <Route
+                    path="/videos"
+                    element={
+                        <BasicLayout>
+                            <Videos />
                         </BasicLayout>
                     }
                 />

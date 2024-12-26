@@ -12,7 +12,7 @@ const ShortCard: React.FC<ShortCardProps> = ({ short, video }) => {
     const handleClick = () => {
         // transfer short, video data to ShortDetail page
         navigate(`/shorts/${short.videoId}`, {
-            state: { short: short, video: video },
+            state: { short: short },
         });
     };
 

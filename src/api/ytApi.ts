@@ -43,7 +43,9 @@ export const fetchVideos = async ({
 };
 
 export const searchVideos = async (query: string) => {
-    const { data } = await apiClient.get("/search", { params: { q: query } });
+    const { data } = await apiClient.get<VideoResponse>("/search", {
+        params: { query: query },
+    });
     return data;
 };
 
