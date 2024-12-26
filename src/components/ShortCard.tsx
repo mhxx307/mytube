@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Short, Video } from "../types";
 
 interface ShortCardProps {
@@ -6,12 +7,24 @@ interface ShortCardProps {
 }
 
 const ShortCard: React.FC<ShortCardProps> = ({ short, video }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        // transfer short, video data to ShortDetail page
+        navigate(`/shorts/${short.videoId}`, {
+            state: { short: short, video: video },
+        });
+    };
+
     return (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div
+            className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer"
+            onClick={handleClick}
+        >
             <img
                 src={short.thumbnail[0].url}
                 alt={short.title}
-                className="w-full h-80 object-cover"
+                className="w-full h-96 object-cover"
             />
             <div className="p-4">
                 <h3 className="text-lg font-semibold line-clamp-1">

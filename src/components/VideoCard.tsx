@@ -14,7 +14,10 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-lg" onClick={handleClick}>
+        <div
+            className="bg-white rounded-lg shadow-lg cursor-pointer"
+            onClick={handleClick}
+        >
             {video.thumbnail && (
                 <img
                     src={video.thumbnail[0].url}

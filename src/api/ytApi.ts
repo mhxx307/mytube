@@ -1,5 +1,5 @@
 import axios from "axios";
-import { VideoResponse } from "../types";
+import { ShortDetail, ShortResponse, VideoResponse } from "../types";
 
 const BASE_URL = "https://yt-api.p.rapidapi.com";
 
@@ -25,9 +25,9 @@ export const fetchVideos = async ({
     geo = "US",
     lang = "en",
     id,
-}: FetchVideosParams): Promise<VideoResponse> => {
+}: FetchVideosParams) => {
     try {
-        const { data } = await apiClient.get(`/${type}`, {
+        const { data } = await apiClient.get<VideoResponse>(`/${type}`, {
             params: {
                 token,
                 geo,
@@ -52,7 +52,16 @@ export const fetchVideoDetails = async (id: string) => {
     return data;
 };
 
-export const fetchChannelDetails = async (channelId: string) => {
-    const { data } = await apiClient.get(`/channel/${channelId}`);
+export const fetchShorts = async (params: string) => {
+    const { data } = await apiClient.get<ShortResponse>("/shorts/sequence", {
+        params: { params },
+    });
+    return data;
+};
+
+export const fetchShortDetails = async (id: string) => {
+    const { data } = await apiClient.get<ShortDetail>(`/shorts/info`, {
+        params: { id },
+    });
     return data;
 };
