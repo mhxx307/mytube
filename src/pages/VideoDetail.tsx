@@ -67,9 +67,23 @@ const VideoDetail: React.FC = () => {
                                     {video.publishedTimeText}
                                 </p>
                             </div>
-                            <p className="text-sm text-gray-500 mb-4">
-                                {video.channelTitle}
-                            </p>
+                            <button
+                                type="button"
+                                className="flex items-center gap-4 mb-4"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(`/channel/${video.channelId}`);
+                                }}
+                            >
+                                <img
+                                    src={video.channelThumbnail[0].url}
+                                    alt={video.channelTitle}
+                                    className="h-10 w-10 rounded-full"
+                                />
+                                <h3 className="text-lg text-black font-bold">
+                                    {video.channelTitle}
+                                </h3>
+                            </button>
                             <p className="text-sm text-gray-500 mb-4">
                                 {formatViewCount(
                                     Number.parseInt(video.viewCount)

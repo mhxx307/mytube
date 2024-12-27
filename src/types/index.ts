@@ -119,3 +119,11 @@ export interface SearchParams {
     lang?: string;
     geo?: string;
 }
+
+export interface ChannelHomeParams {
+    id: string; // Channel Id
+    token?: string; // Pagination token Alternatively, use X-TOKEN in header
+    forUsername?: string; // If id not available then provide username. Quota cost +1.
+    geo?: string; // ISO 3166-2 country code of the region. Like US (default), UK, CA, IN, etc.
+    lang?: string; // Language code for localized results. Like en, gb, hi, etc
+}
