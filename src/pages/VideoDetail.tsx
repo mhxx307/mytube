@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
 import { Video } from "../types";
@@ -13,23 +13,48 @@ const VideoDetail: React.FC = () => {
 
     const [relatedVideos, setRelatedVideos] = useState<Video[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [nextToken, setNextToken] = useState<string | null>(null);
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        fetchRelatedVideos();
+        if (relatedVideos.length === 0) {
+            fetchRelatedVideos();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [video.videoId]);
+    }, [relatedVideos]);
+
+    useEffect(() => {
+        if (!loadMoreRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && nextToken) {
+                    fetchRelatedVideos(nextToken);
+                }
+            },
+            { threshold: 1.0 }
+        );
+
+        const currentRef = loadMoreRef.current;
+        observer.observe(currentRef);
+
+        return () => {
+            if (currentRef) observer.unobserve(currentRef);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nextToken]);
 
     if (!video) {
         navigate("/");
         return null;
     }
 
-    const fetchRelatedVideos = async () => {
+    const fetchRelatedVideos = async (token: string | null = null) => {
         try {
             setLoading(true);
             const data = await fetchVideos({
                 type: "related",
-                token: null,
+                token,
                 geo: "US",
                 lang: "en",
                 id: video.videoId,
@@ -37,7 +62,17 @@ const VideoDetail: React.FC = () => {
             const filteredVideos = data.data.filter(
                 (relatedVideo) => relatedVideo.type === "video"
             );
-            setRelatedVideos(filteredVideos);
+            setRelatedVideos((prev) => {
+                const newVideos = filteredVideos.filter(
+                    (newVideo) =>
+                        !prev.some(
+                            (existingVideo) =>
+                                existingVideo.videoId === newVideo.videoId
+                        )
+                );
+                return [...prev, ...newVideos];
+            });
+            setNextToken(data.continuation || null);
         } catch (error) {
             console.error("Error fetching related videos:", error);
         } finally {
@@ -62,7 +97,6 @@ const VideoDetail: React.FC = () => {
                                 <h1 className="text-2xl font-bold mb-2">
                                     {video.title}
                                 </h1>
-
                                 <p className="text-sm text-gray-500">
                                     {video.publishedTimeText}
                                 </p>
@@ -99,22 +133,21 @@ const VideoDetail: React.FC = () => {
                 <div className="lg:w-1/3">
                     <h2 className="text-xl font-bold mb-4">Related Videos</h2>
                     <div className="overflow-y-auto h-screen lg:max-h-[calc(100vh-32px)] pr-2">
-                        {loading ? (
+                        {relatedVideos.map((relatedVideo) => (
+                            <VideoCard
+                                key={relatedVideo.videoId}
+                                video={relatedVideo}
+                            />
+                        ))}
+                        {loading && (
                             <p className="text-gray-500">
                                 Loading related videos...
                             </p>
-                        ) : relatedVideos.length > 0 ? (
-                            <div className="flex flex-col gap-4">
-                                {relatedVideos.map((relatedVideo) => (
-                                    <VideoCard
-                                        key={relatedVideo.videoId}
-                                        video={relatedVideo}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-gray-500">
-                                No related videos found.
+                        )}
+                        <div ref={loadMoreRef}></div>
+                        {!nextToken && !loading && relatedVideos.length > 0 && (
+                            <p className="text-gray-500 text-center py-4">
+                                No more related videos.
                             </p>
                         )}
                     </div>

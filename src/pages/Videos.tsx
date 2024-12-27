@@ -22,7 +22,15 @@ const Videos = () => {
                 token: nextToken,
             };
             const results = await searchVideos(params);
-            setVideos((prevVideos) => [...prevVideos, ...results.data]);
+            setVideos((prevVideos) => {
+                const newVideos = results.data.filter(
+                    (newVideo) =>
+                        !prevVideos.some(
+                            (video) => video.videoId === newVideo.videoId
+                        )
+                );
+                return [...prevVideos, ...newVideos];
+            });
             setToken(results.continuation || null);
         } catch (error) {
             console.error("Error fetching videos:", error);
