@@ -107,3 +107,15 @@ export interface ShortDetail {
     description: string;
     descriptionWithNavDetails: DescriptionWithNavDetail[];
 }
+
+export interface SearchParams {
+    query: string;
+    token?: string;
+    type?: "video" | "channel" | "playlist" | "movie" | "show" | "shorts";
+    duration?: "short" | "medium" | "long";
+    features?: string;
+    upload_date?: "hour" | "today" | "week" | "month" | "year";
+    sort_by?: "relevance" | "rating" | "date" | "views";
+    lang?: string;
+    geo?: string;
+}

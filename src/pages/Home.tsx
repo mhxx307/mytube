@@ -71,6 +71,7 @@ const Home = () => {
 
     useEffect(() => {
         if (videos.length === 0) fetchVideosHomeFeed();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [videos]);
 
     useEffect(() => {
@@ -89,8 +90,10 @@ const Home = () => {
         observer.observe(loadMoreRef.current);
 
         return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             if (loadMoreRef.current) observer.unobserve(loadMoreRef.current);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     // React Slick settings

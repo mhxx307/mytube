@@ -13,7 +13,9 @@ const Header = ({ className }: { className: string }) => {
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         if (query.trim()) {
-            const results = await searchVideos(query);
+            const results = await searchVideos({
+                query: query,
+            });
             console.log(results); // Handle the search results as needed
             // navigate to Videos page with the search results ==== example: https://www.youtube.com/results?search_query=Lain%27s+Playlist+for+Walking+to+School
             navigate(`/videos?search_query=${query}`);
@@ -44,7 +46,9 @@ const Header = ({ className }: { className: string }) => {
     useEffect(() => {
         const fetchSuggestions = async () => {
             if (query.trim()) {
-                const results = await searchVideos(query);
+                const results = await searchVideos({
+                    query,
+                });
                 setSuggestions(results);
             } else {
                 setSuggestions(null);
@@ -98,7 +102,7 @@ const Header = ({ className }: { className: string }) => {
                         {suggestions.data.map((item) => (
                             <Link
                                 key={item.videoId}
-                                to={`/video/${item.videoId}`}
+                                to={`/videos?search_query=${item.title}`}
                                 className="block px-4 py-2 hover:bg-gray-200"
                             >
                                 {item.title}

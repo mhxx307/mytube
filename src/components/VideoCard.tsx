@@ -1,6 +1,7 @@
 // src/components/VideoCard.tsx
 import { useNavigate } from "react-router-dom";
 import { Video } from "../types/index"; // Assuming the types are in src/types.ts
+import { formatViewCount } from "../utils";
 
 interface VideoCardProps {
     video: Video;
@@ -30,7 +31,9 @@ const VideoCard: React.FC<VideoCardProps> = ({ video }) => {
                     {video.title}
                 </h2>
                 <p className="text-sm text-gray-500">{video.channelTitle}</p>
-                <p className="text-sm text-gray-500">{video.viewCount}</p>
+                <p className="text-sm text-gray-500">
+                    {formatViewCount(Number.parseInt(video.viewCount))}
+                </p>
             </div>
         </div>
     );

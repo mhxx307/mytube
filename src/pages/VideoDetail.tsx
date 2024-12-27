@@ -4,6 +4,7 @@ import ReactPlayer from "react-player";
 import { Video } from "../types";
 import { fetchVideos } from "../api/ytApi";
 import VideoCard from "../components/VideoCard";
+import { formatViewCount } from "../utils";
 
 const VideoDetail: React.FC = () => {
     const location = useLocation();
@@ -15,6 +16,7 @@ const VideoDetail: React.FC = () => {
 
     useEffect(() => {
         fetchRelatedVideos();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [video.videoId]);
 
     if (!video) {
@@ -56,14 +58,23 @@ const VideoDetail: React.FC = () => {
                             height="480px"
                         />
                         <div className="p-4">
-                            <h1 className="text-2xl font-bold mb-2">
-                                {video.title}
-                            </h1>
+                            <div className="flex justify-between gap-4 mb-4">
+                                <h1 className="text-2xl font-bold mb-2">
+                                    {video.title}
+                                </h1>
+
+                                <p className="text-sm text-gray-500">
+                                    {video.publishedTimeText}
+                                </p>
+                            </div>
                             <p className="text-sm text-gray-500 mb-4">
                                 {video.channelTitle}
                             </p>
                             <p className="text-sm text-gray-500 mb-4">
-                                {video.viewCount} views
+                                {formatViewCount(
+                                    Number.parseInt(video.viewCount)
+                                )}{" "}
+                                views
                             </p>
                             <p className="text-gray-700">{video.description}</p>
                         </div>
