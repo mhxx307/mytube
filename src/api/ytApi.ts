@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
     ChannelHomeParams,
+    ChannelVideos,
     SearchParams,
     ShortDetail,
     ShortResponse,
@@ -75,7 +76,21 @@ export const fetchShortDetails = async (id: string) => {
 };
 
 export const fetchChannelDetails = async (params: ChannelHomeParams) => {
-    const { data } = await apiClient.get(`/channel/home`, {
+    const { data } = await apiClient.get<ChannelVideos>(`/channel/home`, {
+        params: params,
+    });
+    return data;
+};
+
+export const fetchChannelVideos = async (params: ChannelHomeParams) => {
+    const { data } = await apiClient.get<ChannelVideos>(`/channel/videos`, {
+        params: params,
+    });
+    return data;
+};
+
+export const fetchChannelShorts = async (params: ChannelHomeParams) => {
+    const { data } = await apiClient.get<ChannelVideos>(`/channel/shorts`, {
         params: params,
     });
     return data;

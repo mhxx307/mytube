@@ -127,3 +127,29 @@ export interface ChannelHomeParams {
     geo?: string; // ISO 3166-2 country code of the region. Like US (default), UK, CA, IN, etc.
     lang?: string; // Language code for localized results. Like en, gb, hi, etc
 }
+
+export interface Meta {
+    channelId: string;
+    title: string;
+    description: string;
+    channelHandle: string;
+    banner: Thumbnail[];
+    tvBanner: Thumbnail[];
+    mobileBanner: Thumbnail[];
+    avatar: Thumbnail[];
+    subscriberCountText: string;
+    subscriberCount: number;
+    videosCountText: string;
+    videosCount: string;
+    keywords: string[];
+    isFamilySafe: boolean;
+    availableCountries: string[];
+    tabs: string[];
+}
+
+export interface ChannelVideos {
+    meta: Meta;
+    data: Video[] | Short[];
+    msg: string;
+    continuation: string;
+}

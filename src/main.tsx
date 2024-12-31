@@ -7,6 +7,7 @@ import "./index.css";
 import BasicLayout from "./components/BasicLayout";
 import ShortDetail from "./pages/ShortDetail";
 import Videos from "./pages/Videos";
+import ChannelDetail from "./pages/ChannelDetail";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -41,6 +42,14 @@ createRoot(document.getElementById("root")!).render(
                     element={
                         <BasicLayout>
                             <Videos />
+                        </BasicLayout>
+                    }
+                />
+                <Route
+                    path="/channel/:channelId"
+                    element={
+                        <BasicLayout>
+                            <ChannelDetail />
                         </BasicLayout>
                     }
                 />
