@@ -153,3 +153,36 @@ export interface ChannelVideos {
     msg: string;
     continuation: string;
 }
+
+export interface CommentParams {
+    id: string; // Video ID or Short ID
+    token?: string; // Pagination token for fetching the next set of results --- continuation or replyToken
+    sort_by?: "newest" | "top";
+    geo?: string;
+    lang?: string;
+}
+
+export interface Comment {
+    commentId: string;
+    authorText: string;
+    authorChannelId: string;
+    authorThumbnail: Thumbnail[];
+    textDisplay: string;
+    publishedTimeText: string;
+    publishDate: string;
+    publishedAt: string;
+    likesCount: string;
+    replyCount: string;
+    replyToken: string;
+    authorIsChannelOwner: boolean;
+    isVerified: boolean;
+    isArtist: boolean;
+    isCreator: boolean;
+}
+
+export interface CommentResponse {
+    commentsCount: string;
+    continuation: string;
+    data: Comment[];
+    msg: string;
+}

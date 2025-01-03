@@ -4,6 +4,7 @@ import ReactPlayer from "react-player";
 import { Video } from "../types";
 import { fetchVideos } from "../api/ytApi";
 import VideoCard from "../components/VideoCard";
+import Comments from "../components/Comments";
 import { formatViewCount } from "../utils";
 
 const VideoDetail: React.FC = () => {
@@ -85,7 +86,7 @@ const VideoDetail: React.FC = () => {
             <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
                 {/* Main Video Section */}
                 <div className="lg:w-2/3">
-                    <div className="bg-white rounded-lg shadow-lg sticky top-4">
+                    <div className="bg-white rounded-lg shadow-lg">
                         <ReactPlayer
                             url={`https://www.youtube.com/watch?v=${video.videoId}`}
                             controls
@@ -126,6 +127,11 @@ const VideoDetail: React.FC = () => {
                             </p>
                             <p className="text-gray-700">{video.description}</p>
                         </div>
+                    </div>
+
+                    {/* Comments Section */}
+                    <div className="mt-8">
+                        <Comments id={video.videoId} sortBy="newest" />
                     </div>
                 </div>
 
